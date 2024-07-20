@@ -1,0 +1,54 @@
+#ifndef MYDRIVER_H
+#define MYDRIVER_H
+
+#include <ntddk.h>
+#include <devioctl.h>
+
+VOID DriverUnload(IN PDRIVER_OBJECT DriverObject);
+NTSTATUS DriverEntry(IN PDRIVER_OBJECT DriverObject, IN PUNICODE_STRING RegistryPath);
+
+#define VALA_TYPE 60652
+
+
+#define IOCTL_READ_IO_PORT_BYTE \
+	CTL_CODE(VALA_TYPE, 0xA00, METHOD_BUFFERED, FILE_READ_ACCESS)
+
+#define IOCTL_WRITE_IO_PORT_BYTE \
+	CTL_CODE(VALA_TYPE, 0xA01, METHOD_BUFFERED, FILE_WRITE_ACCESS)
+
+#define IOCTL_READ_MEMORY \
+	CTL_CODE(VALA_TYPE, 0xA10, METHOD_BUFFERED, FILE_READ_ACCESS)
+
+#define IOCTL_WRITE_MEMORY \
+	CTL_CODE(VALA_TYPE, 0xA11, METHOD_BUFFERED, FILE_WRITE_ACCESS)
+
+typedef struct _READ_PORT_INPUT {
+    USHORT Port;
+    ULONG BufferSize;
+} READ_PORT_INPUT, *PREAD_PORT_INPUT;
+
+UCHAR ReadByteFromPort(USHORT port) {
+    return READ_PORT_UCHAR((PUCHAR)port);
+}
+
+typedef struct _WRITE_PORT_INPUT {
+    USHORT Port;
+    UCHAR Value;
+} WRITE_PORT_INPUT, *PWRITE_PORT_INPUT;
+
+void WriteByteToPort(USHORT port, UCHAR value) {
+    WRITE_PORT_UCHAR((PUCHAR)port, value);
+}
+
+typedef struct _READ_MEMORY_INPUT {
+    PHYSICAL_ADDRESS PhysicalAddress;
+    ULONG Size;
+} READ_MEMORY_INPUT, *PREAD_MEMORY_INPUT;
+
+typedef struct _WRITE_MEMORY_INPUT {
+    PHYSICAL_ADDRESS PhysicalAddress;
+    ULONG Size;
+    UCHAR Data[1];  // Flexible array member for variable-sized data
+} WRITE_MEMORY_INPUT, *PWRITE_MEMORY_INPUT;
+
+#endif // MYDRIVER_H

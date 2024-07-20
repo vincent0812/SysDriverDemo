@@ -1,0 +1,5 @@
+TARGETNAME = SampleDriver
+TARGETPATH = lib
+TARGETTYPE = DRIVER
+
+SOURCES=SampleDriver.c

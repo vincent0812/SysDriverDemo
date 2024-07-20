@@ -1,0 +1,47 @@
+#include <windows.h>
+#include <ntverp.h> // Includes version information
+
+
+#define WIN32_LEAN_AND_MEAN
+
+// Define the driver name and description
+#define VER_FILETYPE                VFT_DRV
+#define VER_FILESUBTYPE             VFT2_DRV_SYSTEM
+#define VER_FILEDESCRIPTION_STR     "Sample Kernel Mode Driver"
+#define VER_INTERNALNAME_STR        "SampleDriver.sys"
+
+
+// Driver version information
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS VS_FF_DEBUG
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS VOS_NT_WINDOWS32
+ FILETYPE VFT_DRV
+ FILESUBTYPE VFT2_DRV_SYSTEM
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0"
+        BEGIN
+            VALUE "CompanyName", "Vincent Lai\0"
+            VALUE "Comments", "MIT License\0"
+            VALUE "LegalCopyright", "Copyright (C) 2024 Vincent Lai. All rights reserved.\0"
+            VALUE "FileDescription", "SampleDriver\0"
+            VALUE "FileVersion", "1.0.0.1\0"
+            VALUE "InternalName", "SampleDriver.sys\0"
+            VALUE "OriginalFilename", "SampleDriver.sys\0"
+            VALUE "ProductName", "SampleDriver\0"
+            VALUE "ProductVersion", "1.0.0.1\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
